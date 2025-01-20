@@ -1,0 +1,10 @@
+[package]
+name = "heartbeat"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+crossterm = "0.28.1"
+#rodio = "0.20.1"
+serde = { version = "1.0.217", features = ["derive"] }
+rand = "0.8.5"
