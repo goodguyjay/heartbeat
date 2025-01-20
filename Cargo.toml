@@ -2,9 +2,11 @@
 name = "heartbeat"
 version = "0.1.0"
 edition = "2021"
+build = "build.rs"
 
 [dependencies]
 crossterm = "0.28.1"
 #rodio = "0.20.1"
 serde = { version = "1.0.217", features = ["derive"] }
+serde_json = "1.0.137"
 rand = "0.8.5"

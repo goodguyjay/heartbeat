@@ -1,0 +1,15 @@
+{
+  "intro": {
+    "dealer": "Ah, a new player has entered. This game is not for the faint of heart. Do you truly wish to continue?",
+    "ask_name": "What shall I call you?"
+  },
+  "anna": {
+    "introduction": "This is Anna, a struggling artist. Her heart beats with a fragile rhythm, as fragile as her dreams.",
+    "empathy_hook": "She paints to survive, but her art is also her escape. The choices you make will shape her fate."
+  },
+  "turn": {
+    "stimulate": "A bold choice. Her pulse quickens, as does her ambition. But ambition is a double-edged sword, isn’t it?",
+    "slow_down": "You slow her down. Caution is wise, but hesitation breeds regret.",
+    "stay_still": "Stillness... the illusion of safety. Do you think the world waits for her?"
+  }
+}
