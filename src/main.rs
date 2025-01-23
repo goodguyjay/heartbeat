@@ -1,42 +1,18 @@
 mod audio;
+mod card_renderer;
 mod dialog;
 mod logic;
 mod ui;
 
+use card_renderer::{format_color, render_hand, Card};
 use dialog::DialogTree;
 
 fn main() {
-    let dialog = DialogTree::load("localization/dialog.json");
+    let card1 = Card::new("A", "Spades", format_color("Spades"));
+    let card2 = Card::new("10", "Hearts", format_color("Hearts"));
+    let card3 = Card::new("K", "Diamonds", format_color("Diamonds"));
+    let player_hand = vec![card1, card2, card3];
 
-    println!("{}", dialog.get("intro", "dealer"));
-
-    println!("{}", dialog.get("intro", "ask_name"));
-    let player_name = ui::get_input().trim().to_string();
-
-    println!("\n{}", dialog.get("anna", "introduction"));
-    println!("{}", dialog.get("anna", "empathy_hook"));
-
-    let mut game = logic::Game::new();
-
-    loop {
-        ui::render(&game);
-
-        if let Some(action) = ui::get_player_action() {
-            game.apply_action(&action);
-
-            match action {
-                logic::Action::Stimulate => println!("{}", dialog.get("turn", "stimulate")),
-                logic::Action::SlowDown => println!("{}", dialog.get("turn", "slow_down")),
-                logic::Action::StayStill => println!("{}", dialog.get("turn", "stay_still")),
-                logic::Action::Quit => break,
-            }
-        }
-
-        println!("Processing");
-        ui::print_dots(std::time::Duration::from_secs(3));
-
-        ui::clear_console();
-    }
-
-    println!("Thanks for playing.");
+    println!("\nYour hand:");
+    println!("{}", render_hand(&player_hand));
 }
