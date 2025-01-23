@@ -17,7 +17,7 @@ impl Card {
     }
 }
 
-pub fn render_card(card: &Card) -> String {
+pub fn render_card_rows(card: &Card) -> Vec<String> {
     let suit_symbol = match card.suit.as_str() {
         "Spades" => "♠",
         "Hearts" => "♥",
@@ -32,32 +32,36 @@ pub fn render_card(card: &Card) -> String {
         _ => "\x1b[0m",             // Reset
     };
 
-    format!(
-        "{}╭─────────╮\x1b[0m\n\
-         {}│ {rank:<2}      │\x1b[0m\n\
-         {}│         │\x1b[0m\n\
-         {}│    {suit}    │\x1b[0m\n\
-         {}│         │\x1b[0m\n\
-         {}│      {rank:>2} │\x1b[0m\n\
-         {}╰─────────╯\x1b[0m",
-        color_code,
-        color_code,
-        color_code,
-        color_code,
-        color_code,
-        color_code,
-        color_code,
-        rank = card.rank,
-        suit = suit_symbol
-    )
+    vec![
+        format!("{}╭─────────╮\x1b[0m", color_code),
+        format!("{}│ {rank:<2}      │\x1b[0m", color_code, rank = card.rank),
+        format!("{}│         │\x1b[0m", color_code),
+        format!("{}│    {suit}    │\x1b[0m", color_code, suit = suit_symbol),
+        format!("{}│         │\x1b[0m", color_code),
+        format!("{}│      {rank:>2} │\x1b[0m", color_code, rank = card.rank),
+        format!("{}╰─────────╯\x1b[0m", color_code),
+    ]
 }
 
 pub fn render_hand(cards: &[Card]) -> String {
-    cards
-        .iter()
-        .map(render_card)
-        .collect::<Vec<String>>()
-        .join("\n")
+    if cards.is_empty() {
+        return String::new();
+    }
+
+    let card_rows: Vec<Vec<String>> = cards.iter().map(render_card_rows).collect();
+
+    let mut combined_rows = Vec::new();
+
+    for row_idx in 0..card_rows[0].len() {
+        let row = card_rows
+            .iter()
+            .map(|rows| rows[row_idx].clone())
+            .collect::<Vec<String>>()
+            .join(" ");
+        combined_rows.push(row);
+    }
+
+    combined_rows.join("\n")
 }
 
 pub fn format_color(suit: &str) -> Color {

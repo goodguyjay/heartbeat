@@ -42,3 +42,19 @@ pub fn get_player_action() -> Option<char> {
         }
     }
 }
+
+pub fn get_player_choice() -> bool {
+    loop {
+        match read().unwrap() {
+            Event::Key(key_event) => {
+                return match key_event.code {
+                    KeyCode::Char('y') => true,
+                    KeyCode::Char('n') => false,
+                    KeyCode::Enter => continue,
+                    _ => false,
+                }
+            }
+            _ => continue,
+        }
+    }
+}

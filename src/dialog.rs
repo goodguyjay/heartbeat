@@ -1,13 +1,14 @@
 use serde::Deserialize;
 use std::collections::HashMap;
 use std::fs;
-use std::path::{Path, PathBuf};
+use std::io::Write;
+use std::path::PathBuf;
+use std::thread::sleep;
+use std::time::Duration;
 
 #[derive(Deserialize, Debug)]
 pub struct DialogTree {
-    pub intro: HashMap<String, String>,
-    pub anna: HashMap<String, String>,
-    pub turn: HashMap<String, String>,
+    pub intro: HashMap<String, serde_json::Value>,
 }
 
 impl DialogTree {
@@ -28,11 +29,26 @@ impl DialogTree {
         serde_json::from_str(&content).expect("Failed to parse JSON")
     }
 
-    pub fn get(&self, section: &str, key: &str) -> &str {
-        self.intro
-            .get(key)
-            .or_else(|| self.anna.get(key))
-            .or_else(|| self.turn.get(key))
-            .unwrap()
+    pub fn get(&self, section: &str, key: &str) -> Option<&serde_json::Value> {
+        if section == "intro" {
+            self.intro.get(key)
+        } else {
+            None
+        }
+    }
+
+    pub fn display_dialog(&self, section: &str, key: &str) {
+        if let Some(value) = self.get(section, key) {
+            if let Some(text) = value.as_str() {
+                for char in text.chars() {
+                    print!("{}", char);
+                    std::io::stdout().flush().unwrap();
+                    sleep(Duration::from_millis(50));
+                }
+                println!(); // Add a newline after the text
+            }
+        } else {
+            eprintln!("Dialog not found for section '{}' and key '{}'", section, key);
+        }
     }
 }

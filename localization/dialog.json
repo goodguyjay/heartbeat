@@ -1,15 +1,13 @@
 {
   "intro": {
-    "dealer": "Ah, a new player has entered. This game is not for the faint of heart. Do you truly wish to continue?",
-    "ask_name": "What shall I call you?"
-  },
-  "anna": {
-    "introduction": "This is Anna, a struggling artist. Her heart beats with a fragile rhythm, as fragile as her dreams.",
-    "empathy_hook": "She paints to survive, but her art is also her escape. The choices you make will shape her fate."
-  },
-  "turn": {
-    "stimulate": "A bold choice. Her pulse quickens, as does her ambition. But ambition is a double-edged sword, isn’t it?",
-    "slow_down": "You slow her down. Caution is wise, but hesitation breeds regret.",
-    "stay_still": "Stillness... the illusion of safety. Do you think the world waits for her?"
+    "dealer_introduction": "Ah, here you are again. Or is this your first time? Does it even matter anymore? You’ve forgotten yourself, haven’t you? Your name, your purpose, even the weight of your soul—left behind, piece by piece, with every card drawn. Yet here you sit, at my table, as if by some instinct you cannot resist. Shall we play once more?",
+    "explain_game": {
+      "part_1": "Let’s begin with the basics. This game is called Blackjack. The goal? Reach a total of 21—or as close to it as you can—without going over. Simple, isn’t it? But simplicity often hides the sharpest teeth.",
+      "part_2": "Each card has a value. Numbered cards are worth their face value. Face cards—kings, queens, and jacks—are worth 10. The ace… ah, the ace is special. It can be worth 1 or 11, bending to your needs. But remember, the cards are not your allies. They obey no master but chance—or so you’d like to believe.",
+      "part_3": "You’ll draw cards, one at a time, trying to get closer to that elusive 21. But beware—the moment you exceed it, you fall. This is called a 'bust.' And when you bust, I take from you. What I take… well, that depends on my mood.",
+      "part_4": "Now, here’s the part you may find unfair. The hidden card? The one you think neither of us sees? I know it. I always know it. This game was never meant for you to win—it’s meant for you to struggle, to teeter on the edge, and to taste the futility of your choices. Do you see it now? This game isn’t just played—it is endured.",
+      "part_5": "You can choose to 'hit,' drawing another card, or 'stand,' keeping your current total. But every choice you make tightens the web you’re caught in. Too reckless, and you burn. Too cautious, and I’ll bleed you dry all the same. Shall we begin?"
+    },
+    "ask_name": "And you? What shall I call you this time? Not that it matters—names are just ashes here, scattered with every loss. But still, speak it, so I may savor it before it fades."
   }
 }
