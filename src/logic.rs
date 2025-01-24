@@ -1,62 +1,95 @@
-use rand::Rng;
+use crate::card_renderer::{format_color, Card};
+use rand::seq::SliceRandom;
+use rand::thread_rng;
 
-#[derive(PartialEq, Copy, Clone)]
-pub enum Action {
-    Stimulate,
-    SlowDown,
-    StayStill,
-    Quit,
+pub struct Deck {
+    pub cards: Vec<Card>,
+}
+
+impl Deck {
+    pub fn new() -> Self {
+        let suits = vec!["Hearts", "Diamonds", "Clubs", "Spades"];
+        let ranks = vec![
+            "A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K",
+        ];
+
+        let mut cards = Vec::new();
+
+        for suit in suits {
+            let color = format_color(suit);
+            for rank in ranks.iter() {
+                cards.push(Card::new(rank, suit, color));
+            }
+        }
+
+        Self { cards }
+    }
+
+    pub fn shuffle(&mut self) {
+        let mut rng = thread_rng();
+        self.cards.shuffle(&mut rng);
+    }
+
+    pub fn deal(&mut self) -> Option<Card> {
+        self.cards.pop()
+    }
 }
 
 pub struct Game {
-    pub heartbeat: i32,
-    pub last_action: Option<Action>,
+    pub player_hand: Vec<Card>,
+    pub dealer_hand: Vec<Card>,
+    pub deck: Deck
 }
 
 impl Game {
     pub fn new() -> Self {
+        let mut deck = Deck::new();
+        deck.shuffle();
+        
         Self {
-            heartbeat: 72,
-            last_action: None,
+            player_hand: Vec::new(),
+            dealer_hand: Vec::new(),
+            deck
         }
     }
-
-    pub fn apply_action(&mut self, action: &Action) {
-        let mut rng = rand::thread_rng();
-
-        match action {
-            Action::Stimulate => {
-                if self.last_action == Some(Action::Stimulate) {
-                    println!("You feel the effects diminishing...");
-                }
-
-                let change = rng.gen_range(5..=15);
-                self.heartbeat += change;
-                println!("You stimulated the heart rate by {}.", change);
+    
+    pub fn deal_initial_hands(&mut self) {
+        for _ in 0..2 {
+            self.player_hand.push(self.deck.deal().unwrap());
+            self.dealer_hand.push(self.deck.deal().unwrap());
+        }
+    }
+    
+    pub fn calculate_hand_value(hand: &[Card]) -> u8 {
+        let mut value = 0;
+        let mut aces = 0;
+        
+        for card in hand {
+            value += match card.rank.as_str() {
+                "A" => 11,
+                "K" | "Q" | "J" => 10,
+                "10" => 10,
+                "9" => 9,
+                "8" => 8,
+                "7" => 7,
+                "6" => 6,
+                "5" => 5,
+                "4" => 4,
+                "3" => 3,
+                "2" => 2,
+                _ => card.rank.parse::<u8>().unwrap_or(0),
+            };
+            
+            if card.rank == "A" {
+                aces += 1;
             }
-
-            Action::SlowDown => {
-                if self.last_action == Some(Action::SlowDown) {
-                    println!("Anna hesitates, slowing down further...");
-                }
-
-                let change = rng.gen_range(-15..=-5);
-                self.heartbeat += change;
-                println!("You slowed down the heart rate by {}.", change.abs());
-            }
-
-            Action::StayStill => {
-                println!("Time passes, but at what cost?");
-            }
-
-            Action::Quit => {}
         }
 
-        self.last_action = Some(*action);
-
-        if self.heartbeat < 40 || self.heartbeat > 100 {
-            println!("The heartbeat went out of range.");
-            std::process::exit(0);
+        while value > 21 && aces > 0 {
+            value -= 10;
+            aces -= 1;
         }
+            
+        value
     }
 }

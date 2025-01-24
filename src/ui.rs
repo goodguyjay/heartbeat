@@ -1,19 +1,23 @@
 use crossterm::{
     event::{read, Event, KeyCode},
     execute,
-    style::{Color, PrintStyledContent, Stylize},
     terminal::{Clear, ClearType},
 };
 
-use crate::logic::{Action, Game};
-use std::io::{stdin, stdout, Write};
-use std::time::Duration;
+use crate::card_renderer::render_hand;
+use crate::logic::Game;
+use std::io::stdout;
 
 pub fn render(game: &Game) {
-    println!("Current Heartbeat: {}", game.heartbeat);
+    println!("Dealer's hand:");
+    println!("{}", render_hand(&game.dealer_hand));
+
+    println!("Your hand:");
+    println!("{}", render_hand(&game.player_hand));
+
     println!("\nChoose an action:");
-    println!("[S] Stimulate (+5 to +15)");
-    println!("[D] Slow down (-5 to -15)");
+    println!("[H] Hit");
+    println!("[S] Stand");
     println!("[Q] Quit");
 }
 
@@ -22,27 +26,14 @@ pub fn clear_console() {
     execute!(stdout, Clear(ClearType::All)).unwrap();
 }
 
-pub fn print_dots(duration: Duration) {
-    let dot_count = 3;
-    let interval = duration / dot_count;
-
-    for _ in 0..dot_count {
-        print!(".");
-        stdout().flush().unwrap();
-        std::thread::sleep(interval);
-    }
-
-    println!();
-}
-
-pub fn get_player_action() -> Option<Action> {
+pub fn get_player_action() -> Option<char> {
     loop {
         match read().unwrap() {
             Event::Key(key_event) => {
                 return match key_event.code {
-                    KeyCode::Char('s') => Some(Action::Stimulate),
-                    KeyCode::Char('d') => Some(Action::SlowDown),
-                    KeyCode::Char('q') => Some(Action::Quit),
+                    KeyCode::Char('h') => Some('h'),
+                    KeyCode::Char('s') => Some('s'),
+                    KeyCode::Char('q') => Some('q'),
                     KeyCode::Enter => continue,
                     _ => None,
                 }
@@ -52,11 +43,18 @@ pub fn get_player_action() -> Option<Action> {
     }
 }
 
-pub fn get_input() -> String {
-    let mut input = String::new();
-    print!(">");
-    stdout().flush().unwrap();
-    stdin().read_line(&mut input).unwrap();
-
-    input
+pub fn get_player_choice() -> bool {
+    loop {
+        match read().unwrap() {
+            Event::Key(key_event) => {
+                return match key_event.code {
+                    KeyCode::Char('y') => true,
+                    KeyCode::Char('n') => false,
+                    KeyCode::Enter => continue,
+                    _ => continue,
+                }
+            }
+            _ => continue,
+        }
+    }
 }
