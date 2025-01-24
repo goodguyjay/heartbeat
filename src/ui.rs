@@ -51,7 +51,7 @@ pub fn get_player_choice() -> bool {
                     KeyCode::Char('y') => true,
                     KeyCode::Char('n') => false,
                     KeyCode::Enter => continue,
-                    _ => false,
+                    _ => continue,
                 }
             }
             _ => continue,

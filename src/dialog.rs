@@ -43,7 +43,7 @@ impl DialogTree {
                 for char in text.chars() {
                     print!("{}", char);
                     std::io::stdout().flush().unwrap();
-                    sleep(Duration::from_millis(50));
+                    sleep(Duration::from_millis(5));
                 }
                 println!(); // Add a newline after the text
             }
