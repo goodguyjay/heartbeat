@@ -39,7 +39,6 @@ fn main() {
                         dialog.display_dialog("player_actions", "hit", None);
 
                         let player_value = Game::calculate_hand_value(&game.player_hand);
-                        println!("debug: player_value: {}", player_value);
 
                         let mut vars = HashMap::new();
                         vars.insert("total".to_string(), player_value.to_string());
