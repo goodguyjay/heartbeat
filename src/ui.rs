@@ -6,7 +6,7 @@ use crossterm::{
 
 use crate::card_renderer::render_hand;
 use crate::logic::Game;
-use std::io::stdout;
+use std::io::{stdin, stdout, Write};
 
 pub fn render(game: &Game) {
     println!("Dealer's hand:");
@@ -24,6 +24,18 @@ pub fn render(game: &Game) {
 pub fn clear_console() {
     let mut stdout = stdout();
     execute!(stdout, Clear(ClearType::All)).unwrap();
+}
+
+pub fn get_player_name() -> String {
+    let mut input = String::new();
+    let mut stdout = stdout();
+    
+    print!("> ");
+    stdout.flush().unwrap();
+    
+    stdin().read_line(&mut input).unwrap();
+    
+    input.trim().to_string()
 }
 
 pub fn get_player_action() -> Option<char> {

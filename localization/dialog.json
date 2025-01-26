@@ -8,6 +8,29 @@
       "part_4": "Now, here’s the part you may find unfair. The hidden card? The one you think neither of us sees? I know it. I always know it. This game was never meant for you to win—it’s meant for you to struggle, to teeter on the edge, and to taste the futility of your choices. Do you see it now? This game isn’t just played—it is endured.",
       "part_5": "You can choose to 'hit,' drawing another card, or 'stand,' keeping your current total. But every choice you make tightens the web you’re caught in. Too reckless, and you burn. Too cautious, and I’ll bleed you dry all the same. Shall we begin?"
     },
-    "ask_name": "And you? What shall I call you this time? Not that it matters—names are just ashes here, scattered with every loss. But still, speak it, so I may savor it before it fades."
+    "ask_name": "And you? What shall I call you this time? Not that it matters—names are just ashes here, scattered with every loss. But still, speak it, so I may savor it before it fades.",
+    "taunt_name": "Ah, {{ player_name }}. How characteristic of you. Let's begin."
+  },
+  "player_actions": {
+    "hit": "You drew a card.",
+    "player_hand": "Your hand: {{ total }}.",
+    "stand": "You stand."
+  },
+  "game_actions": {
+    "dealer_turn": "It’s my turn now. Let’s see what fate has in store for me.",
+    "dealer_bust": "I’ve gone over 21. You win this round, {{ player_name }}.",
+    "dealer_win": "I win this round, {{ player_name }}.",
+    "player_win": "You win this round, {{ player_name }}.",
+    "player_bust": "You’ve gone over 21. I win this round.",
+    "draw": "It’s a draw. No one wins, no one loses. Yet.",
+    "player_blackjack": "Blackjack! You win this round, {{ player_name }}.",
+    "dealer_blackjack": "Blackjack! I win this round, {{ player_name }}."
+  },
+  "dealer_dialog": {
+    "risky_play": [
+      "Taking risks again? How amusing.",
+      "Your courage is commendable... or foolish.",
+      "Another bold choice, {{ player_name }}."
+    ]
   }
 }
