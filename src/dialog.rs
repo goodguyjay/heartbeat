@@ -28,7 +28,7 @@ impl DialogTree {
         }
     }
 
-    // This function loads the JSON file and parses it into a HashMap
+    /// This function loads the JSON file and parses it into a HashMap
     pub fn load(file_name: &str) -> Self {
         let path = Self::get_localization_path(file_name);
         let content = fs::read_to_string(&path).unwrap_or_else(|_| {
@@ -46,7 +46,7 @@ impl DialogTree {
         }
     }
 
-    // This function gets a dialog from the json file based on the section and key
+    /// This function gets a dialog from the json file based on the section and key
     pub fn get(&self, section: &str, key: &str) -> Option<String> {
         if let Some(value) = self.sections.get(section) {
             if let Some(sub_value) = value.get(key) {
@@ -82,10 +82,10 @@ impl DialogTree {
         }
     }
 
-    // This function will display a dialog from the JSON file
-    // If parameters are provided, it will replace placeholders in the text
-    //
-    // The lib tera was included to make template strings easier
+    /// This function will display a dialog from the JSON file
+    /// If parameters are provided, it will replace placeholders in the text
+    ///
+    /// The lib tera was included to make template strings easier
     pub fn display_dialog(
         &mut self,
         section: &str,
