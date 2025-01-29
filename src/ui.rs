@@ -10,7 +10,7 @@ use std::io::{stdin, stdout, Write};
 
 pub fn render(game: &Game) {
     println!("Dealer's hand:");
-    println!("{}", render_hand(&game.dealer_hand));
+    println!("{}", render_hand(&game.dealer.hand));
 
     println!("Your hand:");
     println!("{}", render_hand(&game.player_hand));

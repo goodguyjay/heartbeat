@@ -16,10 +16,14 @@
     "player_hand": "Your hand: {{ total }}.",
     "stand": "You stand."
   },
-  "game_actions": {
+  "dealer_actions": {
     "dealer_turn": "It’s my turn now. Let’s see what fate has in store for me.",
     "dealer_bust": "I’ve gone over 21. You win this round, {{ player_name }}.",
-    "dealer_win": "I win this round, {{ player_name }}.",
+    "dealer_win": "I win this round, {{ player_name }}."
+  },
+  "game_actions": {
+    "dealer_hit": "The dealer drew a card.",
+    "dealer_stand": "The dealer stands.",
     "player_win": "You win this round, {{ player_name }}.",
     "player_bust": "You’ve gone over 21. I win this round.",
     "draw": "It’s a draw. No one wins, no one loses. Yet.",

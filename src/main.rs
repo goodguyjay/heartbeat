@@ -1,15 +1,16 @@
 mod audio;
 mod card_renderer;
+mod dealer;
 mod dialog;
 mod gameplay;
 mod logic;
 mod ui;
 
 use crate::dialog::DialogTree;
+use crate::gameplay::Gameplay;
 use crate::logic::Game;
 use crate::ui::clear_console;
 use std::collections::HashMap;
-use crate::gameplay::Gameplay;
 
 fn main() {
     let mut dialog = DialogTree::load("localization/dialog.json");

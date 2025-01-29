@@ -1,4 +1,7 @@
 use crate::card_renderer::{format_color, Card};
+use crate::dealer::{DealerAI, DealerAction};
+use crate::dialog::DialogTree;
+use crate::ui;
 use rand::seq::SliceRandom;
 use rand::thread_rng;
 
@@ -37,7 +40,7 @@ impl Deck {
 
 pub struct Game {
     pub player_hand: Vec<Card>,
-    pub dealer_hand: Vec<Card>,
+    pub dealer: DealerAI,
     pub deck: Deck,
 }
 
@@ -48,7 +51,7 @@ impl Game {
 
         Self {
             player_hand: Vec::new(),
-            dealer_hand: Vec::new(),
+            dealer: DealerAI::new(),
             deck,
         }
     }
@@ -56,7 +59,7 @@ impl Game {
     pub fn deal_initial_hands(&mut self) {
         for _ in 0..2 {
             self.player_hand.push(self.deck.deal().unwrap());
-            self.dealer_hand.push(self.deck.deal().unwrap());
+            self.dealer.hand.push(self.deck.deal().unwrap());
         }
     }
 
@@ -104,5 +107,35 @@ impl Game {
 
     pub fn is_player_bust(&self) -> bool {
         Self::calculate_hand_value(&self.player_hand) > 21
+    }
+
+    pub fn dealer_turn(&mut self, dialog: &mut DialogTree) {
+        loop {
+            match self.dealer.take_action(&mut self.deck) {
+                DealerAction::Hit => {
+                    ui::render(self);
+                    dialog.display_dialog("game_actions", "dealer_hit", None);
+                }
+
+                DealerAction::Stand => {
+                    ui::render(self);
+                    dialog.display_dialog("game_actions", "dealer_stand", None);
+                    break;
+                }
+            }
+        }
+
+        let player_value = Game::calculate_hand_value(&self.player_hand);
+        let dealer_value = Game::calculate_hand_value(&self.dealer.hand);
+
+        if dealer_value > 21 {
+            println!("dealer busts. placeholder dialog");
+        } else if player_value > dealer_value {
+            println!("you win. placeholder dialog");
+        } else if player_value < dealer_value {
+            println!("dealer wins. placeholder dialog");
+        } else {
+            println!("tie. placeholder dialog");
+        }
     }
 }

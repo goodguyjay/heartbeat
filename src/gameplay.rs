@@ -41,6 +41,8 @@ impl Gameplay {
             
             's' => {
                 dialog.display_dialog("player_actions", "stand", None);
+                dialog.display_dialog("dealer_actions", "dealer_turn", None);
+                game.dealer_turn(dialog);
                 return false;
             }
             
