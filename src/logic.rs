@@ -38,32 +38,32 @@ impl Deck {
 pub struct Game {
     pub player_hand: Vec<Card>,
     pub dealer_hand: Vec<Card>,
-    pub deck: Deck
+    pub deck: Deck,
 }
 
 impl Game {
     pub fn new() -> Self {
         let mut deck = Deck::new();
         deck.shuffle();
-        
+
         Self {
             player_hand: Vec::new(),
             dealer_hand: Vec::new(),
-            deck
+            deck,
         }
     }
-    
+
     pub fn deal_initial_hands(&mut self) {
         for _ in 0..2 {
             self.player_hand.push(self.deck.deal().unwrap());
             self.dealer_hand.push(self.deck.deal().unwrap());
         }
     }
-    
+
     pub fn calculate_hand_value(hand: &[Card]) -> u8 {
         let mut value = 0;
         let mut aces = 0;
-        
+
         for card in hand {
             value += match card.rank.as_str() {
                 "A" => 11,
@@ -79,7 +79,7 @@ impl Game {
                 "2" => 2,
                 _ => card.rank.parse::<u8>().unwrap_or(0),
             };
-            
+
             if card.rank == "A" {
                 aces += 1;
             }
@@ -89,7 +89,20 @@ impl Game {
             value -= 10;
             aces -= 1;
         }
-            
+
         value
+    }
+
+    pub fn player_hit(&mut self) -> Option<&Card> {
+        if let Some(card) = self.deck.deal() {
+            self.player_hand.push(card);
+            self.player_hand.last()
+        } else {
+            None
+        }
+    }
+
+    pub fn is_player_bust(&self) -> bool {
+        Self::calculate_hand_value(&self.player_hand) > 21
     }
 }
